@@ -1,0 +1,168 @@
+-- Active: 1723590231719@@127.0.0.1@3306
+CREATE DATABASE zoologico
+    DEFAULT CHARACTER SET = 'utf8mb4';
+
+    use zoologico;
+
+    CREATE Table Especies (
+        id_esp INT (5) AUTO_INCREMENT PRIMARY KEY,
+        id_espe INT(10),
+        Nombre_esp  VARCHAR(20),
+        Nombre_cie VARCHAR(15),
+        descripcion VARCHAR(50)
+    );
+
+
+
+    CREATE table Zonas (
+        Id_zon INT (5) AUTO_INCREMENT PRIMARY KEY,
+        Id_zona INT (10),
+        Nombre VARCHAR(10),
+        Extencion VARCHAR(10)
+    );
+
+    CREATE table Itinerarios (
+        Id_iti INT (5) AUTO_INCREMENT PRIMARY KEY,
+        Id_itin INT (10),
+        codigo_iti VARCHAR(10),
+        Duracion_reco VARCHAR(20),
+        Longitud_inti VARCHAR(20),
+        max_visitantes VARCHAR(20),
+        numero_especies VARCHAR(20)
+    );
+    CREATE TABLE guias (
+        id_gui INT (5) AUTO_INCREMENT PRIMARY KEY,
+        id_guia INT(10),
+        nombre VARCHAR(20),
+        direccion VARCHAR(20),
+        telefono INT (10),
+        fecha_contratacion VARCHAR(20),
+        fecha_asignacion_espe VARCHAR(20)
+    );
+
+   CREATE TABLE cuidadores (
+     id_cui INT (5) AUTO_INCREMENT PRIMARY KEY,
+     id_cuid INT(10),
+     nombre VARCHAR(20),
+     direccion VARCHAR(20),
+     telefono INT (10),
+     fecha_ingreso VARCHAR(10)
+   );
+   CREATE Table habitat (
+    id_habi INT (5) AUTO_INCREMENT PRIMARY KEY,
+    id_habit INT(10),
+    nombre VARCHAR(10),
+    clima VARCHAR(10),
+    tipo_vegetacion VARCHAR(10)
+   );
+
+   CREATE TABLE Cuidadores_Especies (
+   id_Cuidadoresid_cui INT (5) AUTO_INCREMENT PRIMARY KEY,
+   id_Especiesid_espe INT (5) 
+   );
+    create table Guias_Itinerarios(
+        id_Gui_Iti INT (5) AUTO_INCREMENT PRIMARY KEY,
+        id_Guiasid_gui INT(10)
+    );
+    CREATE table Itinerarios_Zonas (
+        id_Cuidadoresid_cui INT (5) AUTO_INCREMENT PRIMARY KEY,
+        id_Especiesid_espe  INT(10)
+    ) ;
+    CREATE table Especies_Habitat (
+        Especiesid_esp INT (5) AUTO_INCREMENT PRIMARY KEY,
+        Habitatid_hab  INT(10)
+    ) ;
+
+
+
+ALTER TABLE Especies ADD constraint fk_zonas FOREIGN KEY (id_espe) REFERENCES zonas ( Id_zon);
+
+
+ALTER TABLE Especies ADD constraint fk_eh FOREIGN KEY (id_espe) REFERENCES Especies_Habitat (Especiesid_esp);
+ALTER TABLE Especies_Habitat ADD constraint fk_he FOREIGN KEY (Habitatid_hab ) REFERENCES habitat (id_habi);
+
+
+ALTER TABLE cuidadores ADD constraint fk_ep FOREIGN KEY (id_cuid) REFERENCES Cuidadores_Especies  (id_Cuidadoresid_cui);
+ALTER TABLE Cuidadores_Especies ADD constraint fk_ce FOREIGN KEY (id_Especiesid_espe) REFERENCES Especies  (id_esp);
+
+ALTER TABLE Itinerarios ADD constraint fk_iz FOREIGN KEY (id_itin) REFERENCES Itinerarios_Zonas ( id_Cuidadoresid_cui);
+ALTER TABLE Itinerarios_Zonas ADD constraint fk_zi FOREIGN KEY (id_Especiesid_espe) REFERENCES Zonas ( id_zon);
+
+
+ALTER TABLE guias ADD constraint fk_gi FOREIGN KEY (id_guia) REFERENCES Guias_Itinerarios ( id_Gui_Iti);
+ALTER TABLE Guias_Itinerarios ADD constraint fk_ig FOREIGN KEY (id_Guiasid_gui) REFERENCES  Itinerarios ( Id_itin);
+
+
+
+DROP DATABASE zoologico;
+
+
+INSERT into Especies (Nombre_esp,Nombre_cie,descripcion)
+values("Elefante africano","sLoxodonta africana","El animal terrestre más grande del mundo, con grandes orejas y una trompa prensil.");
+INSERT into Especies (Nombre_esp,Nombre_cie,descripcion)
+values("Koala","Phascolarctos cinereus","Marsupial arborícola, conocido por su dieta a base de hojas de eucalipto y por su lento metabolismo.");
+INSERT into Especies (Nombre_esp,Nombre_cie,descripcion)
+values("Ballena jorobada","Megaptera novaeangliae","Cetáceo conocido por sus largas aletas pectorales y sus complejas canciones.");
+INSERT into Especies (Nombre_esp,Nombre_cie,descripcion)
+values("Camaleón pantera","Furcifer pardalis","Reptil conocido por su capacidad de cambiar de color y por su lengua extensible");
+INSERT into Especies (Nombre_esp,Nombre_cie,descripcion)
+values("Mariposa monarca","Danaus plexippus","Insecto conocido por su larga migración y sus alas de color naranja y negro.");
+
+INSERT into Zonas (Id_zona,Nombre,Extencion )
+values("0001","Elefan","África subsahariana");
+INSERT into Zonas (Id_zona,Nombre,Extencion )
+values("0002","Kolag de eucaliptos","bosques de eucaliptos de Australia");
+INSERT into Zonas (Id_zona,Nombre,Extencion )
+values("0003","Océan","océanos");
+INSERT into Zonas (Id_zona,Nombre,Extencion )
+values("0004","Camalg","Madagascar");
+INSERT into Zonas (Id_zona,Nombre,Extencion )
+values("0005","Marig","América del Norte");
+
+INSERT INTO Itinerarios (codigo_iti, Duracion_reco,Longitud_inti,max_visitantes,numero_especies)
+VALUES ("001","2 HR","135.789°","100","22");
+INSERT INTO Itinerarios (codigo_iti, Duracion_reco,Longitud_inti,max_visitantes,numero_especies)
+VALUES ("002","1 HR","-25.341°","60","12");
+INSERT INTO Itinerarios (codigo_iti, Duracion_reco,Longitud_inti,max_visitantes,numero_especies)
+VALUES ("003","3HR","89.123°","30","45");
+INSERT INTO Itinerarios (codigo_iti, Duracion_reco,Longitud_inti,max_visitantes,numero_especies)
+VALUES ("004","50 MN","172.567°","85","10");
+INSERT INTO Itinerarios (codigo_iti, Duracion_reco,Longitud_inti,max_visitantes,numero_especies)
+VALUES ("005","4 HR","-10.987°","120","5");
+
+
+
+
+INSERT INTO guias (nombre,direccion,telefono,fecha_contratacion,fecha_asignacion_espe )
+VALUES ("Viviana Arrieta","Calle 53 # 25A-35 ","(1) 3814000","dfgdfb","ergfd");
+INSERT INTO guias (nombre,direccion,telefono,fecha_contratacion,fecha_asignacion_espe )
+VALUES ("Valeria Fernandez","Calle 5 # 4-48 Barrio Centro","(8) 592-6001","dfgdfb","ergfd");
+INSERT INTO guias (nombre,direccion,telefono,fecha_contratacion,fecha_asignacion_espe )
+VALUES ("Alberto Villegas","Calle 8 # 7-40 Centro","(8) - 885-1005 / 885-0663","dfgdfb","ergfd");
+INSERT INTO guias (nombre,direccion,telefono,fecha_contratacion,fecha_asignacion_espe )
+VALUES ("Adrian Vegas","Avenida 3 norte # 50N-20","fbgfbxcb","(5) 351 -3401","ergfd");
+INSERT INTO guias (nombre,direccion,telefono,fecha_contratacion,fecha_asignacion_espe )
+VALUES ("Yolanda Padro","srgrsgsd","Carrera 11 # 41-13 ","(1) 3814000","ergfd");
+
+INSERT INTO cuidadores (nombre,direccion,telefono,fecha_ingreso )
+VALUES ("Diego Ospina","calle 25 # 6-08","(7) 573-5210","02/05/2024");
+INSERT INTO cuidadores (nombre,direccion,telefono,fecha_ingreso )
+VALUES ("Fernando Sandoval","calle 37 # 42-12","(2) - 722-9393","15/06/2024");
+INSERT INTO cuidadores (nombre,direccion,telefono,fecha_ingreso )
+VALUES ("Valentina Perez","calle7 # 19-35","(8) 512-1818","28/06/2024");
+INSERT INTO cuidadores (nombre,direccion,telefono,fecha_ingreso )
+VALUES ("Adriana Florez","Avenida 1 # 28-57","(5) 281-1454 / 281-6278","10/07/2024");
+INSERT INTO cuidadores (nombre,direccion,telefono,fecha_ingreso )
+VALUES ("Cristian Fonseca","calle 10 # 8-07","(2) 397-3510","27/07/2024");
+
+
+INSERT INTO habitat (nombre,clima,tipo_vegetacion )
+VALUES ("Bosques tropicales","áreas cálidas","Vegetación herbácea");
+INSERT INTO habitat (nombre,clima,tipo_vegetacion )
+VALUES ("bosques de eucaliptos","ambiente fresco y húmeda","eucaliptos y plantas nativas de Australia");
+INSERT INTO habitat (nombre,clima,tipo_vegetacion )
+VALUES ("piscinas con agua salada","Temperatura controlada","N/A");
+INSERT INTO habitat (nombre,clima,tipo_vegetacion )
+VALUES ("selva tropical ","temperatura cálida y húmeda"," plantas tropicales como bromelias, orquídeas y ficus");
+INSERT INTO habitat (nombre,clima,tipo_vegetacion )
+VALUES (" invernaderos o vivarios"," temperatura cálida y húmeda","Plantas con florez");
